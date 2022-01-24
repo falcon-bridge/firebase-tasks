@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import useHttp from "./hooks/use-http";
 
@@ -46,21 +46,12 @@ function App() {
     setTasks(loadedTasks);
   }, []);
 
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchTasks,
-  } = useHttp(
-    useMemo(() => {
-      return {
-        url: "https://using-firebase-ac49a-default-rtdb.firebaseio.com/tasks.json",
-      };
-    }, []),
-    transformTasks
-  );
+  const { isLoading, error, sendRequest: fetchTasks } = useHttp(transformTasks);
 
   useEffect(() => {
-    fetchTasks();
+    fetchTasks({
+      url: "https://using-firebase-ac49a-default-rtdb.firebaseio.com/tasks.json",
+    });
   }, [fetchTasks]);
 
   const taskAddHandler = (task) => {
